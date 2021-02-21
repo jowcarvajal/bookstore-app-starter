@@ -1,6 +1,7 @@
 package com.app.bookstore.controller;
 
-import javax.websocket.server.PathParam;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bookstore.domain.Categoria;
+import com.app.bookstore.dto.CategoriaDTO;
 import com.app.bookstore.service.CategoriaService;
 
 @RestController
@@ -23,6 +25,13 @@ public class CategoriaController {
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id){
 		Categoria categoria = categoriaService.findById(id);
 		return ResponseEntity.ok().body(categoria);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> lista = categoriaService.findAll();
+		List<CategoriaDTO> listaDTO = lista.stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaDTO);
 	}
 
 }

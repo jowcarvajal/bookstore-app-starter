@@ -1,5 +1,6 @@
 package com.app.bookstore.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class CategoriaService {
 	public Categoria findById(Integer id) {
 		Optional<Categoria> optional =  categoriaRepository.findById(id);
 		return optional.orElseThrow(()-> new ObjectNotFoundException(id + " - Objeto Nao Encontrado - " + Categoria.class.getName()));
+	}
+	
+	public List<Categoria> findAll() {
+		return categoriaRepository.findAll();
 	}
 
 }
