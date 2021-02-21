@@ -17,23 +17,34 @@ public class LivroService {
 	private CategoriaService categoriaService;
 
 	@Autowired
-	public LivroService(LivroRepository livroRepository, CategoriaService categoriaService)  {
+	public LivroService(LivroRepository livroRepository, CategoriaService categoriaService) {
 		super();
 		this.livroRepository = livroRepository;
 		this.categoriaService = categoriaService;
 	}
-	
-	
+
 	public Livro findById(Integer id) {
 		Optional<Livro> optional = livroRepository.findById(id);
-		return optional.orElseThrow(()-> new ObjectNotFoundException(id + " - Livro nao encotrado : " + Livro.class.getName()));
+		return optional.orElseThrow(
+				() -> new ObjectNotFoundException(id + " - Livro nao encotrado : " + Livro.class.getName()));
 	}
-
 
 	public List<Livro> findAllByCategoria(Integer idCategoria) {
 		Categoria categoria = categoriaService.findById(idCategoria);
 		return livroRepository.findAllByCategoria(categoria);
 	}
-	
-	
+
+	public Livro update(Integer id, Livro livroUpdated) {
+		Livro livroDatabase = findById(id);
+		updateLivroDatabase(livroDatabase, livroUpdated);
+		return livroRepository.save(livroDatabase);
+	}
+
+	private void updateLivroDatabase(Livro livroDatabase, Livro livroUpdated) {
+		livroDatabase.setTitulo(livroUpdated.getTitulo());
+		livroDatabase.setAutor(livroUpdated.getAutor());
+		livroDatabase.setDescricao(livroUpdated.getDescricao());
+
+	}
+
 }
