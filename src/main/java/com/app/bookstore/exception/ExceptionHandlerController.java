@@ -1,5 +1,5 @@
 
-package com.app.bookstore.controller.exception;
+package com.app.bookstore.exception;
 
 import javax.servlet.ServletRequest;
 
@@ -8,14 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.app.bookstore.exception.ObjectNotFoundException;
-
 @ControllerAdvice
 public class ExceptionHandlerController {
 	
 	@ExceptionHandler(ObjectNotFoundException.class)
-	public ResponseEntity<ExceptionBaseError> objectNotFoundException (ObjectNotFoundException exception, ServletRequest request) {
-		ExceptionBaseError error = new ExceptionBaseError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), exception.getMessage());
+	public ResponseEntity<Exception> objectNotFoundException (ObjectNotFoundException exception, ServletRequest request) {
+		Exception error = new Exception(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), exception.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 

@@ -1,14 +1,14 @@
-package com.app.bookstore.controller.exception;
+package com.app.bookstore.exception;
 
-public class ExceptionBaseError {
+public class Exception {
 
 	private Long timestamp;
 	private Integer status;
 	private String message;
-	public ExceptionBaseError() {
+	public Exception() {
 		super();
 	}
-	public ExceptionBaseError(Long timestamp, Integer status, String message) {
+	public Exception(Long timestamp, Integer status, String message) {
 		super();
 		this.timestamp = timestamp;
 		this.status = status;
