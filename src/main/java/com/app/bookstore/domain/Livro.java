@@ -7,10 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "livro")
 public class Livro implements Serializable {
 	/**
 	 * 
@@ -18,7 +19,7 @@ public class Livro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String titulo;
 	private String autor;
 	private String descricao;
@@ -30,7 +31,7 @@ public class Livro implements Serializable {
 		super();
 	}
 
-	public Livro(int id, String titulo, String autor, String descricao, Categoria categoria) {
+	public Livro(Integer id, String titulo, String autor, String descricao, Categoria categoria) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -39,11 +40,11 @@ public class Livro implements Serializable {
 		this.categoria = categoria;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
