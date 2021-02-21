@@ -9,9 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name="categoria")
+@Table(name = "categoria")
 public class Categoria implements Serializable {
 
 	/**
@@ -21,7 +24,11 @@ public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotEmpty(message = "nao pode ser vazio")
+	@Length(min = 3, max = 64, message = "de 3 a 64 caracteres")
 	private String nome;
+	@NotEmpty(message = "nao pode ser vazio")
+	@Length(min = 3, max = 255, message = "de 3 a 255 caracteres")
 	private String descricao;
 	@OneToMany(mappedBy = "categoria")
 	private List<Livro> livros;
