@@ -47,4 +47,13 @@ public class LivroService {
 
 	}
 
+	public Livro create(Integer idCategoria, Livro livro) {
+		Categoria categoria = categoriaService.findById(idCategoria);
+		livro.setId(null);
+		livro.setCategoria(categoria);
+		return livroRepository.save(livro);
+		
+		
+	}
+
 }

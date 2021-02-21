@@ -1,5 +1,6 @@
 package com.app.bookstore.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.app.bookstore.domain.Livro;
 import com.app.bookstore.dto.LivroDTO;
@@ -32,25 +35,32 @@ public class LivroController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<LivroDTO>> findAll(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria) {
+	public ResponseEntity<List<LivroDTO>> findAll(
+			@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria) {
 		List<Livro> lista = livroService.findAllByCategoria(idCategoria);
 		List<LivroDTO> listaDTO = lista.stream().map(livro -> new LivroDTO(livro)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listaDTO);
 	}
 
-	@PutMapping(value="/{id}")
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<Livro> update(@PathVariable Integer id, @RequestBody Livro livroUpdated) {
 		Livro livro = livroService.update(id, livroUpdated);
 		return ResponseEntity.ok().body(livro);
-		
-		
+
 	}
-	
-	@PatchMapping(value="/{id}")
+
+	@PatchMapping(value = "/{id}")
 	public ResponseEntity<Livro> patch(@PathVariable Integer id, @RequestBody Livro livroUpdated) {
 		Livro livro = livroService.update(id, livroUpdated);
 		return ResponseEntity.ok().body(livro);
-		
-		
+	}
+
+	@PostMapping
+	public ResponseEntity<Livro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria,
+			@RequestBody Livro livro) {
+		Livro livro2 = livroService.create(idCategoria, livro);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livro/{id}").buildAndExpand(livro2.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+
 	}
 }
